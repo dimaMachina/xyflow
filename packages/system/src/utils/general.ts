@@ -21,8 +21,8 @@ export const clampPosition = (
   extent: CoordinateExtent,
   dimensions: Partial<Dimensions>
 ) => ({
-  x: clamp(position.x, extent[0][0], extent[1][0] - (dimensions?.width ?? 0)),
-  y: clamp(position.y, extent[0][1], extent[1][1] - (dimensions?.height ?? 0)),
+  x: clamp(position.x, extent[0][0], extent[1][0] - (dimensions.width ?? 0)),
+  y: clamp(position.y, extent[0][1], extent[1][1] - (dimensions.height ?? 0)),
 });
 
 export function clampPositionToParent<NodeType extends NodeBase>(
@@ -209,7 +209,7 @@ export const getViewportForBounds = (
   return { x, y, zoom: clampedZoom };
 };
 
-export const isMacOs = () => typeof navigator !== 'undefined' && navigator?.userAgent?.indexOf('Mac') >= 0;
+export const isMacOs = () => typeof navigator !== 'undefined' && navigator.userAgent.indexOf('Mac') >= 0;
 
 export function isCoordinateExtent(extent?: CoordinateExtent | 'parent'): extent is CoordinateExtent {
   return extent !== undefined && extent !== 'parent';

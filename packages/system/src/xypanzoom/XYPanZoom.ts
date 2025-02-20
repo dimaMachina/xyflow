@@ -76,14 +76,12 @@ export function XYPanZoom({
   d3ZoomInstance.wheelDelta(wheelDelta);
 
   function setTransform(transform: ZoomTransform, options?: PanZoomTransformOptions) {
-    if (d3Selection) {
       return new Promise<boolean>((resolve) => {
-        d3ZoomInstance?.transform(
+        d3ZoomInstance.transform(
           getD3Transition(d3Selection, options?.duration, () => resolve(true)),
           transform
         );
       });
-    }
 
     return Promise.resolve(false);
   }
@@ -200,11 +198,9 @@ export function XYPanZoom({
     translateExtent: CoordinateExtent
   ): Promise<ZoomTransform | undefined> {
     const nextTransform = viewportToTransform(viewport);
-    const contrainedTransform = d3ZoomInstance?.constrain()(nextTransform, extent, translateExtent);
+    const contrainedTransform = d3ZoomInstance.constrain()(nextTransform, extent, translateExtent);
 
-    if (contrainedTransform) {
-      await setTransform(contrainedTransform);
-    }
+    await setTransform(contrainedTransform);
 
     return new Promise((resolve) => resolve(contrainedTransform));
   }
@@ -218,7 +214,6 @@ export function XYPanZoom({
   }
 
   function syncViewport(viewport: Viewport) {
-    if (d3Selection) {
       const nextTransform = viewportToTransform(viewport);
       const currentTransform = d3Selection.property('__zoom');
 
@@ -229,53 +224,48 @@ export function XYPanZoom({
       ) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        d3ZoomInstance?.transform(d3Selection, nextTransform, null, { sync: true });
+        d3ZoomInstance.transform(d3Selection, nextTransform, null, { sync: true });
       }
-    }
   }
 
   function getViewport(): Viewport {
-    const transform = d3Selection ? zoomTransform(d3Selection.node() as Element) : { x: 0, y: 0, k: 1 };
+    const transform = zoomTransform(d3Selection.node() as Element);
     return { x: transform.x, y: transform.y, zoom: transform.k };
   }
 
   function scaleTo(zoom: number, options?: PanZoomTransformOptions) {
-    if (d3Selection) {
       return new Promise<boolean>((resolve) => {
-        d3ZoomInstance?.scaleTo(
+        d3ZoomInstance.scaleTo(
           getD3Transition(d3Selection, options?.duration, () => resolve(true)),
           zoom
         );
       });
-    }
 
     return Promise.resolve(false);
   }
 
   function scaleBy(factor: number, options?: PanZoomTransformOptions) {
-    if (d3Selection) {
       return new Promise<boolean>((resolve) => {
-        d3ZoomInstance?.scaleBy(
+        d3ZoomInstance.scaleBy(
           getD3Transition(d3Selection, options?.duration, () => resolve(true)),
           factor
         );
       });
-    }
 
     return Promise.resolve(false);
   }
 
   function setScaleExtent(scaleExtent: [number, number]) {
-    d3ZoomInstance?.scaleExtent(scaleExtent);
+    d3ZoomInstance.scaleExtent(scaleExtent);
   }
 
   function setTranslateExtent(translateExtent: CoordinateExtent) {
-    d3ZoomInstance?.translateExtent(translateExtent);
+    d3ZoomInstance.translateExtent(translateExtent);
   }
 
   function setClickDistance(distance: number) {
     const validDistance = !isNumeric(distance) || distance < 0 ? 0 : distance;
-    d3ZoomInstance?.clickDistance(validDistance);
+    d3ZoomInstance.clickDistance(validDistance);
   }
 
   return {

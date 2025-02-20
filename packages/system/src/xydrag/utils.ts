@@ -50,7 +50,7 @@ export function getDragItems<NodeType extends NodeBase>(
       if (internalNode) {
         dragItems.set(id, {
           id,
-          position: internalNode.position || { x: 0, y: 0 },
+          position: internalNode.position,
           distance: {
             x: mousePos.x - internalNode.internals.positionAbsolute.x,
             y: mousePos.y - internalNode.internals.positionAbsolute.y,
@@ -60,7 +60,7 @@ export function getDragItems<NodeType extends NodeBase>(
           origin: internalNode.origin,
           expandParent: internalNode.expandParent,
           internals: {
-            positionAbsolute: internalNode.internals.positionAbsolute || { x: 0, y: 0 },
+            positionAbsolute: internalNode.internals.positionAbsolute,
           },
           measured: {
             width: internalNode.measured.width ?? 0,

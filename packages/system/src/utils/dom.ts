@@ -33,13 +33,17 @@ export const getDimensions = (node: HTMLDivElement): Dimensions => ({
 });
 
 export const getHostForElement = (element: HTMLElement | EventTarget | null): Document | ShadowRoot =>
-  ((element as Partial<HTMLElement> | null)?.getRootNode?.() as Document | ShadowRoot) || window?.document;
+  (element &&
+    'getRootNode' in element &&
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    (element.getRootNode() as Document | ShadowRoot)) ||
+  window.document;
 
 const inputTags = ['INPUT', 'SELECT', 'TEXTAREA'];
 
 export function isInputDOMNode(event: KeyboardEvent): boolean {
   // using composed path for handling shadow dom
-  const target = (event.composedPath?.()?.[0] || event.target) as Element | null;
+  const target = (event.composedPath()[0] || event.target) as Element | null;
   if (target?.nodeType !== 1 /* Node.ELEMENT_NODE */) return false;
 
   const isInput = inputTags.includes(target.nodeName) || target.hasAttribute('contenteditable');
@@ -52,8 +56,8 @@ export const isMouseEvent = (event: MouseEvent | TouchEvent): event is MouseEven
 
 export const getEventPosition = (event: MouseEvent | TouchEvent, bounds?: DOMRect) => {
   const isMouse = isMouseEvent(event);
-  const evtX = isMouse ? event.clientX : event.touches?.[0].clientX;
-  const evtY = isMouse ? event.clientY : event.touches?.[0].clientY;
+  const evtX = isMouse ? event.clientX : event.touches[0].clientX;
+  const evtY = isMouse ? event.clientY : event.touches[0].clientY;
 
   return {
     x: evtX - (bounds?.left ?? 0),
@@ -75,7 +79,7 @@ export const getHandleBounds = (
 ): Handle[] | null => {
   const handles = nodeElement.querySelectorAll(`.${type}`);
 
-  if (!handles || !handles.length) {
+  if (!handles.length) {
     return null;
   }
 

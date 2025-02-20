@@ -42,7 +42,7 @@ export function XYMinimap({ domNode, panZoom, getTransform, getViewScale }: XYMi
     const zoomHandler = (event: D3ZoomEvent<SVGSVGElement, any>) => {
       const transform = getTransform();
 
-      if (event.sourceEvent.type !== 'wheel' || !panZoom) {
+      if (event.sourceEvent.type !== 'wheel') {
         return;
       }
 
@@ -70,7 +70,7 @@ export function XYMinimap({ domNode, panZoom, getTransform, getViewScale }: XYMi
     const panHandler = (event: D3ZoomEvent<HTMLDivElement, any>) => {
       const transform = getTransform();
 
-      if ((event.sourceEvent.type !== 'mousemove' && event.sourceEvent.type !== 'touchmove') || !panZoom) {
+      if ((event.sourceEvent.type !== 'mousemove' && event.sourceEvent.type !== 'touchmove')) {
         return;
       }
 

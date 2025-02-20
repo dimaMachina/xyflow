@@ -89,7 +89,7 @@ export function adoptUserNodes<NodeType extends NodeBase>(
   const _options = mergeObjects(adoptUserNodesDefaultOptions, options);
 
   const tmpLookup = new Map(nodeLookup);
-  const selectedNodeZ: number = _options?.elevateNodesOnSelect ? 1000 : 0;
+  const selectedNodeZ: number = _options.elevateNodesOnSelect ? 1000 : 0;
 
   nodeLookup.clear();
   parentLookup.clear();
@@ -215,7 +215,7 @@ function calculateChildXYZ<NodeType extends NodeBase>(
   }
 
   const childZ = calculateZ(childNode, selectedNodeZ);
-  const parentZ = parentNode.internals.z ?? 0;
+  const parentZ = parentNode.internals.z;
 
   return {
     x: absolutePosition.x,

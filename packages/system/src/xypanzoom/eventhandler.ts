@@ -126,8 +126,6 @@ export function createPanOnScrollHandler({
 
       onPanZoomStart?.(event, nextViewport);
     }
-
-    if (zoomPanValues.isPanScrolling) {
       onPanZoom?.(event, nextViewport);
 
       zoomPanValues.panScrollTimeout = setTimeout(() => {
@@ -135,7 +133,6 @@ export function createPanOnScrollHandler({
 
         zoomPanValues.isPanScrolling = false;
       }, 150);
-    }
   };
 }
 
@@ -170,10 +167,7 @@ export function createPanZoomStartHandler({ zoomPanValues, onDraggingChange, onP
     if (event.sourceEvent?.type === 'mousedown') {
       onDraggingChange(true);
     }
-
-    if (onPanZoomStart) {
       onPanZoomStart?.(event.sourceEvent as MouseEvent | TouchEvent, viewport);
-    }
   };
 }
 
@@ -186,14 +180,14 @@ export function createPanZoomHandler({
 }: PanZoomParams) {
   return (event: D3ZoomEvent<HTMLDivElement, any>) => {
     zoomPanValues.usedRightMouseButton = !!(
-      onPaneContextMenu && isRightClickPan(panOnDrag, zoomPanValues.mouseButton ?? 0)
+      onPaneContextMenu && isRightClickPan(panOnDrag, zoomPanValues.mouseButton)
     );
 
     if (!event.sourceEvent?.sync) {
       onTransformChange([event.transform.x, event.transform.y, event.transform.k]);
     }
 
-    if (onPanZoom && !event.sourceEvent?.internal) {
+    if (!event.sourceEvent?.internal) {
       onPanZoom?.(event.sourceEvent as MouseEvent | TouchEvent, transformToViewport(event.transform));
     }
   };
@@ -216,7 +210,7 @@ export function createPanZoomEndHandler({
 
     if (
       onPaneContextMenu &&
-      isRightClickPan(panOnDrag, zoomPanValues.mouseButton ?? 0) &&
+      isRightClickPan(panOnDrag, zoomPanValues.mouseButton) &&
       !zoomPanValues.usedRightMouseButton &&
       event.sourceEvent
     ) {
@@ -233,9 +227,9 @@ export function createPanZoomEndHandler({
       clearTimeout(zoomPanValues.timerId);
       zoomPanValues.timerId = setTimeout(
         () => {
-          onPanZoomEnd?.(event.sourceEvent as MouseEvent | TouchEvent, viewport);
+          onPanZoomEnd(event.sourceEvent as MouseEvent | TouchEvent, viewport);
         },
-        // we need a setTimeout for panOnScroll to supress multiple end events fired during scroll
+        // we need a setTimeout for panOnScroll to suppress multiple end events fired during scroll
         panOnScroll ? 150 : 0
       );
     }
