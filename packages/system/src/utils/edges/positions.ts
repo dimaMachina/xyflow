@@ -18,7 +18,6 @@ export type GetEdgePositionParams = {
 
 function isNodeInitialized(node: InternalNodeBase): boolean {
   return (
-    node &&
     !!(node.internals.handleBounds || node.handles?.length) &&
     !!(node.measured.width || node.width || node.initialWidth)
   );
@@ -56,8 +55,8 @@ export function getEdgePosition(params: GetEdgePositionParams): EdgePosition | n
     return null;
   }
 
-  const sourcePosition = sourceHandle?.position || Position.Bottom;
-  const targetPosition = targetHandle?.position || Position.Top;
+  const sourcePosition = sourceHandle.position;
+  const targetPosition = targetHandle.position;
   const source = getHandlePosition(sourceNode, sourceHandle, sourcePosition);
   const target = getHandlePosition(targetNode, targetHandle, targetPosition);
 
@@ -76,8 +75,8 @@ function toHandleBounds(handles?: NodeHandle[]) {
     return null;
   }
 
-  const source = [];
-  const target = [];
+  const source: Handle[] = [];
+  const target: Handle[] = [];
 
   for (const handle of handles) {
     handle.width = handle.width ?? 1;
@@ -85,7 +84,7 @@ function toHandleBounds(handles?: NodeHandle[]) {
 
     if (handle.type === 'source') {
       source.push(handle as Handle);
-    } else if (handle.type === 'target') {
+    } else {
       target.push(handle as Handle);
     }
   }
@@ -125,10 +124,6 @@ export function getHandlePosition(
 }
 
 function getHandle(bounds: Handle[], handleId?: string | null): Handle | null {
-  if (!bounds) {
-    return null;
-  }
-
   // if no handleId is given, we use the first handle, otherwise we check for the id
   return (!handleId ? bounds[0] : bounds.find((d) => d.id === handleId)) || null;
 }

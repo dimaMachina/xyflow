@@ -81,8 +81,8 @@ function nodeToParentExtent(node: NodeBase): CoordinateExtent {
 function nodeToChildExtent(child: NodeBase, parent: NodeBase, nodeOrigin: NodeOrigin): CoordinateExtent {
   const x = parent.position.x + child.position.x;
   const y = parent.position.y + child.position.y;
-  const width = child.measured!.width! ?? 0;
-  const height = child.measured!.height! ?? 0;
+  const width = child.measured!.width ?? 0;
+  const height = child.measured!.height ?? 0;
   const originOffsetX = nodeOrigin[0] * width;
   const originOffsetY = nodeOrigin[1] * height;
 
@@ -136,8 +136,8 @@ export function XYResizer({ domNode, nodeId, getStoreItems, onChange, onEnd }: X
         prevValues = {
           width: node.measured.width ?? 0,
           height: node.measured.height ?? 0,
-          x: node.position.x ?? 0,
-          y: node.position.y ?? 0,
+          x: node.position.x,
+          y: node.position.y,
         };
 
         startValues = {

@@ -133,7 +133,7 @@ export function XYDrag<OnNodeDrag extends (e: any, nodes: any, node: any) => voi
       let hasChange = false;
       let nodesBox: Box = { x: 0, y: 0, x2: 0, y2: 0 };
 
-      if (dragItems.size > 1 && nodeExtent) {
+      if (dragItems.size > 1) {
         const rect = getInternalNodesBounds(dragItems);
         nodesBox = rectToBox(rect);
       }
@@ -161,7 +161,7 @@ export function XYDrag<OnNodeDrag extends (e: any, nodes: any, node: any) => voi
           [nodeExtent[1][0], nodeExtent[1][1]],
         ];
 
-        if (dragItems.size > 1 && nodeExtent && !dragItem.extent) {
+        if (dragItems.size > 1 && !dragItem.extent) {
           const { positionAbsolute } = dragItem.internals;
           const x1 = positionAbsolute.x - nodesBox.x + nodeExtent[0][0];
           const x2 = positionAbsolute.x + dragItem.measured.width - nodesBox.x2 + nodeExtent[1][0];
@@ -335,7 +335,7 @@ export function XYDrag<OnNodeDrag extends (e: any, nodes: any, node: any) => voi
         }
 
         // skip events without movement
-        if ((lastPos.x !== pointerPos.xSnapped || lastPos.y !== pointerPos.ySnapped) && dragItems && dragStarted) {
+        if ((lastPos.x !== pointerPos.xSnapped || lastPos.y !== pointerPos.ySnapped) && dragStarted) {
           // dragEvent = event.sourceEvent as MouseEvent;
           mousePosition = getEventPosition(event.sourceEvent, containerBounds!);
 

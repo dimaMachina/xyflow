@@ -53,7 +53,7 @@ function onPointerDown(
   let closestHandle: Handle | null;
 
   const { x, y } = getEventPosition(event);
-  const clickedHandle = doc?.elementFromPoint(x, y);
+  const clickedHandle = doc.elementFromPoint(x, y);
   const handleType = getHandleType(edgeUpdaterType, clickedHandle);
   const containerBounds = domNode?.getBoundingClientRect();
 
@@ -116,7 +116,7 @@ function onPointerDown(
   onConnectStart?.(event, { nodeId, handleId, handleType });
 
   function onPointerMove(event: MouseEvent | TouchEvent) {
-    if (!getFromHandle() || !fromHandle) {
+    if (!getFromHandle()) {
       onPointerUp(event);
       return;
     }
@@ -247,7 +247,7 @@ function isValidHandle(
 ) {
   const isTarget = fromType === 'target';
   const handleDomNode = handle
-    ? doc.querySelector(`.${lib}-flow__handle[data-id="${flowId}-${handle?.nodeId}-${handle?.id}-${handle?.type}"]`)
+    ? doc.querySelector(`.${lib}-flow__handle[data-id="${flowId}-${handle.nodeId}-${handle.id}-${handle.type}"]`)
     : null;
 
   const { x, y } = getEventPosition(event);

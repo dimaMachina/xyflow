@@ -42,7 +42,7 @@ export function handleConnectionChange(
   const diff: HandleConnection[] = [];
 
   a.forEach((connection, key) => {
-    if (!b?.has(key)) {
+    if (!b.has(key)) {
       diff.push(connection);
     }
   });

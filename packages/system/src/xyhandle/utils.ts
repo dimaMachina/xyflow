@@ -119,7 +119,7 @@ export function isConnectionValid(isInsideConnectionRadius: boolean, isHandleVal
 
   if (isHandleValid) {
     isValid = true;
-  } else if (isInsideConnectionRadius && !isHandleValid) {
+  } else if (isInsideConnectionRadius) {
     isValid = false;
   }
 

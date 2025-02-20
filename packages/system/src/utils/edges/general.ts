@@ -171,7 +171,7 @@ export const reconnectEdge = <EdgeType extends EdgeBase>(
     return edges;
   }
 
-  const foundEdge = edges.find((e) => e.id === oldEdge.id) as EdgeType;
+  const foundEdge = edges.find((e) => e.id === oldEdge.id);
 
   if (!foundEdge) {
     devWarn('007', errorMessages['error007'](oldEdgeId));
